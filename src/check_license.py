@@ -1,8 +1,7 @@
-import json
 from datetime import datetime
 from cryptography.fernet import Fernet
 
-from cfg.cfg import *
+from store.config import *
 from src.get_hardware import getHardwareData
 
 def writeLine(pathtofile, lineN, payload):
@@ -60,13 +59,14 @@ def checkLicense(path_to_license):
         
         return True 
     else: 
-        print('Activation key not found')
+        print('-> activation key not found')
         TrustedHardwareToken = getLineByNumber(1, bytes=True)
         
         trustedHardware = fernet.decrypt(TrustedHardwareToken).decode()
         
         if currentHardware == trustedHardware:
+            print('-> hardware authorization successful')
             return True
         else:
-            print('Hardware authorizatin failed')
+            print('-> hardware authorizatin failed')
     return False
