@@ -1,8 +1,7 @@
 from datetime import datetime
 from cryptography.fernet import Fernet
 
-from store.config import *
-from src.get_hardware import getHardwareData
+from .config import *
 
 def writeLine(pathtofile, lineN, payload):
     writeMode='w+'
@@ -24,8 +23,7 @@ def writeLine(pathtofile, lineN, payload):
           f.write(line)
     
     
-    
-def checkLicense(path_to_license):
+def checkLicense(path_to_license, currentHardware):
     
     fernet = Fernet(cryptography_secret_key)
      
@@ -44,7 +42,6 @@ def checkLicense(path_to_license):
             return line.strip()
     
     key = getLineByNumber(1)
-    currentHardware = str(getHardwareData())
     # Сначала проверяется есть ли ключ активации в файле лицензии, если он там есть
     # то мы разрешаем активировать программу.
     # Активация заключается в создании зашифрованного Hardware uuid, ключ активации лицензии при этом удалится
